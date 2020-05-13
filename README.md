@@ -1,2 +1,2 @@
 # Project-Tech
-Repository of the tech project.
+Repository of the tech project

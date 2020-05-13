@@ -1,0 +1,32 @@
+{
+  "name": "project-tech",
+  "version": "1.0.0",
+  "description": "Feature for dating app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/max-hauser/Project-Tech.git"
+  },
+  "keywords": [
+    "Project",
+    "Tech",
+    "Dating",
+    "Node"
+  ],
+  "author": "Max Hauser",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/max-hauser/Project-Tech/issues"
+  },
+  "homepage": "https://github.com/max-hauser/Project-Tech#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

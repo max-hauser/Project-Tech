@@ -11,11 +11,22 @@ app.get('/', function(req, res) {
   res.render('pages/index');
 });
 
-// about page 
-app.get('/about', function(req, res) {
-  res.render('pages/about');
+// meet page 
+app.get('/meet', function(req, res) {
+  res.render('pages/meet');
 });
-app.use(express.static('public'))
+
+// meet page 
+app.get('/account', function(req, res) {
+  res.render('pages/account');
+});
+
+// chats page 
+app.get('/chats', function(req, res) {
+  res.render('pages/chats');
+});
+
+app.use(express.static(__dirname + '/static'));
 
 app.get('/users/:userId/books/:bookId', function (req, res) {
   res.send(req.params)

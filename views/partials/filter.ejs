@@ -12,24 +12,34 @@
 
       <!-- Modal body -->
       <div class="modal-body text-left">
-          <form action="/action_page.php">
+          <form action="/meet" method="POST">
             <div class="form-group">
               <label for="age">Age:</label>
-              <input type="range" min="18" max="40" class="form-control" id="age" placeholder="Enter email" name="age">
+              <input type="range" min="18" max="40" class="form-control" id="age" placeholder="Enter email" name="age" value="18">
             </div>
             <div class="form-group">
                 <label for="distance">Distance:</label>
                 <input type="range" min="1" max="3" class="form-control" id="distance" placeholder="Enter email" name="distance">
             </div>
             <div class="form-group">
-                <label for="sex">sex:</label>
-                <div class="btn-group">
-                    <a href="#" class="btn btn-light"><span class="fas fa-venus"></span></a>
-                    <a href="#" class="btn btn-light"><span class="	fas fa-mars"></span></a>
-                    <a href="#" class="btn btn-light"><span class="fas fa-mars-double"></span></a>
-                  </div>              
+                <label for="sex">Orientation:</label>
+                <div>
+                    <input type="radio" id="female" name="orientation" value="female"
+                           checked>
+                    <label for="female">female</label>
+                  </div>
+                  
+                  <div>
+                    <input type="radio" id="male" name="orientation" value="male">
+                    <label for="male">male</label>
+                  </div>
+                  
+                  <div>
+                    <input type="radio" id="both" name="orientation" value="both">
+                    <label for="both">both</label>
+                  </div>          
             </div>
-            <button type="submit" class="btn btn-success" data-dismiss="modal">Save</button>
+            <button type="submit" class="btn btn-success" data-dismiss="modal" id="submit_pref">Save</button>
           </form>
       </div>
     </div>

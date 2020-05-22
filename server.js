@@ -1,41 +1,114 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const bodyParser = require('body-parser');
+
+app
+ //post
+.post('/meet', pref)
 
 
-// set the view engine to ejs
-app.set('view engine', 'ejs');
+  // set
+  .set('view engine', 'ejs')
 
-// index page 
-app.get('/', function(req, res) {
-  res.render('pages/index');
-});
+  // get
+  .get('/', function (req, res) {
+    res.render('pages/index');
+  })
+  .get('/', function (req, res) {
+    res.render('pages/index');
+  })
+  .get('/meet', function (req, res) {
+    res.render('pages/meet')
+    res.render('pages/meet', {data: users})
+  })
+  .get('/users', get_users)
+  .get('/account', function (req, res) {
+    res.render('pages/account');
+  })
+  .get('/chats', function (req, res) {
+    res.render('pages/chats');
+  })
 
-// meet page 
-app.get('/meet', function(req, res) {
-  res.render('pages/meet');
-});
+  // use
+  .use(express.static(__dirname + '/static'))
 
-// meet page 
-app.get('/account', function(req, res) {
-  res.render('pages/account');
-});
+  .use(bodyParser.urlencoded({extended: true}))
+  
+  .use(function (req, res, next) {
+    res.status(404).send("404 page, Sorry can't find that!")
+  })
 
-// chats page 
-app.get('/chats', function(req, res) {
-  res.render('pages/chats');
-});
 
-app.use(express.static(__dirname + '/static'));
+function get_users(req, res) {
+  res.render('pages/users.ejs', { data: users });
+}
 
-app.get('/users/:userId/books/:bookId', function (req, res) {
-  res.send(req.params)
-})
+function pref(req, res) {
+  // data.push({
+  //   age: req.body.age,
+  //   distance: req.body.distance,
+  //   orientation: req.body.orientation
+  // })
+  //res.redirect('/meet')
+  console.log(req.body.age)
+  console.log(req.body.age)
+  console.log(req.body.age)
+}
 
-// respond with 404 if status === 404
-app.use(function (req, res, next) {
-  res.status(404).send("404 page, Sorry can't find that!")
-})
+let users = [{
+    "id": 0,
+    "firstname": "Bob",
+    "lastname": "Dillan",
+    "age": 25,
+    "gender": "male",
+    "interests": ["Soccer", "Gaming", "Playing with dog"],
+    "intent": "Serious Relationship",
+    "orientation": "straight",
+    "location": 1,
+    "picture": "images/users/user-0.png"
 
+    
+  },
+  {
+    "id": 1,
+    "firstname": "Keira",
+    "lastname": "Flow",
+    "age": 21,
+    "gender": "female",
+    "interests": ["Make-up", "Tennis", "reading"],
+    "intent": "Casual Dating",
+    "orientation": "straight",
+    "location": 1,
+    "picture": "images/users/user-1.png"
+    
+  },
+  {
+    "id": 2,
+    "firstname": "Andrea",
+    "lastname": "Anderson",
+    "age": 28,
+    "gender": "female",
+    "interests": ["Climbing", "Netflix", "Childcare"],
+    "intent": "Serious Dating",
+    "orientation": "lesbian",
+    "location": 2,
+    "picture": "images/users/user-2.png"
+    
+  },
+  {
+    "id": 3,
+    "firstname": "Tom",
+    "lastname": "Gilbert",
+    "age": 18,
+    "gender": "male",
+    "interests": ["touring", "Night life", "Stockmarket"],
+    "intent": "One Night Stand",
+    "orientation": "Gay",
+    "location": 3,
+    "picture": "images/users/user-3.png"
+  
+  }
+];
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));

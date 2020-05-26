@@ -1,0 +1,88 @@
+<!-- views/pages/EDIT.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include ("../partials/head") %>
+</head>
+
+<body class="container">
+
+    <header>
+        <%- include ("../partials/header") %>
+    </header>
+
+  <main>
+
+      <div class="jumbotron">
+
+    <h1>Edit <%= data.firstname %></h1>
+    <form action="/edit" method="POST" id="add_user">
+
+      <fieldset>
+        <legend>About you</legend>
+      <input type="text" placeholder="firstname" id="firstname" name="firstname" value="<%= data.firstname %>">
+      <input type="text" placeholder="lastname" id="lastname" name="lastname" value="<%= data.lastname %>">
+      <input type="number" placeholder="age" id="age" name="age" min="18" max="50" value="<%= data.age %>">
+      <input type="email" placeholder="email" id="email" name="email" value="<%= data.email %>">
+      <input type="password" placeholder="password" id="password" name="password" value="<%= data.password %>">
+
+
+      <h3>What's your gender?</h3>
+      <input type="radio" id="male" name="gender" value="male">
+      <label for="male">Male</label>
+      <input type="radio" id="female" name="gender" value="female">
+      <label for="female">Female</label>
+
+      <h3>Upload your brightest smile</h3>
+      <input type="file" placeholder="profile picture" id="picture" name="picture">
+    </fieldset>
+
+
+    <fieldset>
+      <legend>What keeps you busy?</legend>
+        <input type="text" placeholder="interest, interest, interest" id="interest" name="interest" value="<%= data.interest %>">
+
+        <h3>type of relationship</h3>
+        <input type="radio" id="casual" name="intent" value="casual">
+        <label for="male">casual</label>
+        <input type="radio" id="serious" name="intent" value="serious">
+        <label for="female">serious</label>
+        <input type="radio" id="onenightstant" name="intent" value="onenightstant">
+        
+        <h3>What's your orientation?</h3>
+        <input type="radio" id="male" name="orientation" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="orientation" value="female">
+        <label for="female">Female</label>
+        <input type="radio" id="both" name="orientation" value="both">
+        <label for="both">Both</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Is your day near or far away?</legend>
+      <input type="radio" id="city" name="area" value="1">
+      <label for="city">city</label>
+      <input type="radio" id="country" name="area" value="2">
+      <label for="country">Country</label>
+      <input type="radio" id="world" name="area" value="3">
+      <label for="world">World</label>
+    </fieldset>
+
+
+      <!-- <input type="submit" value="Add user"> -->
+      <button value="<%= data._id%>" name="_id" data-id=" <%= data._id %>">Verstuur</button>
+    </form>
+
+    </div>
+
+  </main>  
+
+  <footer>
+      <%- include ("../partials/footer") %>
+  </footer>
+
+</body>
+
+</html>

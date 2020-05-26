@@ -36,3 +36,9 @@ footer p.text-center {
 .btn-group{
   width: 100%;
 }
+
+
+input {
+  display: block;
+  margin-bottom: 15px;
+}

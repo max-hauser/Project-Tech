@@ -19,6 +19,7 @@ module.exports = {
     "no-underscore-dangle" : ["off", { "allow": ["foo_", "_bar"] }],
     "prefer-template": ["allow-single-concat"],
     "import/newline-after-import": ["error", {count: 2}],
-    "no-use-before-define": ["error", {"functions": false, "classes": false}]
+    "no-use-before-define": ["error", {"functions": false, "classes": false}],
+    "eslint no-func-assign": "error"
   }
 };

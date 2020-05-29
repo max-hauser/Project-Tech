@@ -1,0 +1,44 @@
+body{
+  background-color: #28226a;
+}
+
+nav{
+  background: #e9ecef;
+  border-radius: .3rem;
+  margin-bottom: 2rem;
+}
+
+header nav a span {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+header nav a{
+  text-align: center;
+  color: #28226a;
+}
+
+.navbar-brand > img {
+  width: 150px;
+  margin-top: 3px;
+}
+
+footer p.text-center {
+  color: #f0f0f0;
+}
+
+.card{
+  margin: 0px auto;
+  box-shadow: 0px 0px 25px #d0d0d0;
+}
+
+.btn-group{
+  width: 100%;
+}
+
+
+input {
+  display: block;
+  margin-bottom: 15px;
+}

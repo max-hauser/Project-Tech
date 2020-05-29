@@ -1,0 +1,126 @@
+<!-- views/pages/LOGIN.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Amora</title>
+
+<!-- CSS (load bootstrap from a CDN) -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<link rel="icon"  type="image/png" href="images/logo.png" />
+<link rel="stylesheet" href="styles/main.css">
+<style>
+    body    { padding-top:50px; }
+</style>
+</head>
+
+<body class="container">
+
+  <header>
+    <nav class="navbar navbar-expand-md" role="navigation">
+      <a class="navbar-brand" href="login.html">
+          <img src="images/logo.svg" alt="logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="meet.html"><span class="fas fa-heart"></span>Meet</a>
+          </li>
+          <li class="nav-item">
+              <a class="nav-link" href="meet.html" data-toggle="modal" data-target="#myModal"><span class="fas fa-filter"></span>filter</a>
+            </li>        
+          <li class="nav-item">
+            <a class="nav-link" href="meet.html"><span class="fas fa-comment"></span>Chats</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="account.html"><span class="fas fa-user"></span>My acount</a>
+          </li>    
+        </ul>
+      </div>  
+    </nav>
+  </header>
+
+  <main>
+    <div class="jumbotron">
+    
+<div class="card" style="width:400px">
+                <img class="card-img-top" src="images/user-0.png" alt="Card image" style="width:100%">
+                <div class="card-body">
+                    <h4 class="card-title">John Doe, <small>male </small></h4>
+                    <p class="card-text">Hi my name is John.<br> I'm 24 years old and I'm looking for a serious partner. <br><br>My interest are: reading, biking and swimming</p>
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-danger"><span class="far fa-times-circle"></span></a>
+                        <a href="#" class="btn btn-success"><span class="fas fa-heart"></span></a>
+                    </div>
+                </div>
+            </div>
+
+
+  </main>
+
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Filter preferences</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body text-left">
+            <form action="" method="POST" id="filter">
+              <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="range" min="18" max="40" class="form-control" id="age" placeholder="Enter email" name="age" value="18">
+              </div>
+              <div class="form-group">
+                  <label for="distance">Distance:</label>
+                  <input type="range" min="1" max="3" class="form-control" id="distance" placeholder="Enter email" name="distance">
+              </div>
+              <div class="form-group">
+                  <label for="sex">Orientation:</label>
+                  <div>
+                      <input type="radio" id="female" name="orientation" value="female"
+                             checked>
+                      <label for="female">female</label>
+                    </div>
+                    
+                    <div>
+                      <input type="radio" id="male" name="orientation" value="male">
+                      <label for="male">male</label>
+                    </div>
+                    
+                    <div>
+                      <input type="radio" id="both" name="orientation" value="both">
+                      <label for="both">both</label>
+                    </div>          
+              </div>
+              <button>Filter</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <!-- views/partials/footer.ejs -->
+
+<p class="text-center">© Copyright 2020 Amora</p>
+
+<script src="main.js"></script>
+  </footer>
+
+</body>
+
+</html>

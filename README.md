@@ -11,7 +11,7 @@ The semester has 3 courses:
 The goal of this project was to learn about the basics of Node.js, Git and Express.
 With these tools I've build a filter-feature for a dating website.
 
-![alt text]()
+![alt text](https://github.com/max-hauser/Project-Tech/blob/master/static/amore-readme.png)
 
 ## Getting started
 

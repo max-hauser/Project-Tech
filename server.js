@@ -5,58 +5,95 @@ const port = 3000;
 const bodyParser = require('body-parser');
 const mongo = require('mongodb')
 const MongoClient = require('mongodb').MongoClient;
+const multer = require('multer')
+const session = require('express-session')
 const { ObjectID } = require('mongodb');
 
 
-// Database init
 let db;
 const db_key = "mongodb+srv://admin:admin@cluster0-po8zm.mongodb.net/test?retryWrites=true&w=majority";
-MongoClient.connect(db_key, function (err, client) {
-  if (err) {
-    throw err
-  } else {
-    console.log("database doet t");
-  }
-  db = client.db("mydb");
-});
+MongoClient.connect(db_key, function (err, client) { if (err) { throw err } else {} db = client.db("mydb"); });
 
+var upload = multer({ dest: 'static/images/users/'})
 
 // Expres requests
 app
-  
-  .use(bodyParser.urlencoded({
-    extended: true
-  }))
   .set('view engine', 'ejs')
 
-  .post('/edit', edit_user)
-  .post('/add', add_user)
+  .use(express.static('static'))
+  .use(bodyParser.urlencoded({ extended: true}))
+  .use(bodyParser.json())
+  .use(session({'secret': '343ji43j4n3jn4jk3n'}))
+  
+  .post('/edit', upload.single('picture'), edit_user)
+  .post('/add', upload.single('picture'), add_user)
   .post('/delete', delete_user)
+  .post('/meet', filter)
+  .post('/login', login)
+  .post('/account', logout)
+  .post('/edituser', upload.single('picture'), edit_user)
 
-  .get('/', function (req, res) {
-    res.render('pages/index');
-  })
+  .get('/', check_session, load_homepage)
+  .get('/admin',check_session, adminpanel)
+  .get('/add', check_session, add_userpage)
+  .get('/edituser', check_session, edituser)
+  .get('/admin', check_session, load_admin_page)
+  .get('/chats', check_session, load_chat_page)
+  .get('/meet', check_session, init_meet)
+  .get('/login', load_login_page)
+  .get('/account', check_session, load_myaccount_page)
+  .get('/:id', check_session, get_user)
+
   .use(express.static(__dirname + '/static'))
-  .get('/admin', adminpanel)
-  .get('/add', function (req, res) {
-    res.render('pages/add');
-  })
-  .get('/admin', function (req, res) {
-    res.render('pages/admin');
-  })
-
-  .get('/meet', function (req, res) {
-    res.render('pages/meet', get_users);
-  })
-
-  .get('/:id', get_user)
+ 
   .use(function (req, res, next) {
     res.status(404).send("404 page, Sorry can't find that!")
   })
+
+
   .listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
 
 
 // functies om met de database te communiceren
+
+
+function check_session(req, res, next) {
+  // if session does not exist -> redirect to login, else continue
+  if(req.session.user){
+    next()
+  }else{
+    res.redirect('/login')
+  }
+}
+
+function load_login_page(req, res, next) {
+  res.render('pages/login');
+}
+
+function load_homepage(req, res, next) {
+  res.render('pages/index', {user: req.session.user}); 
+}
+
+function add_userpage(req, res, next) {
+  res.render('pages/add');
+}
+
+function load_admin_page(req, res, next) {
+  res.render('pages/admin')
+}
+
+function load_chat_page(req, res, next) {
+  res.render('pages/chats')
+}
+function load_myaccount_page(req, res, next) {
+  res.render('pages/account', {user: req.session.user})
+  console.log(req.session.user)
+}
+
+function edituser(req, res, next) {
+  res.render('pages/edituser', {user: req.session.user})
+}
+
 
 
 function adminpanel(req, res, next) {
@@ -99,13 +136,11 @@ function add_user(req, res, next) {
 }
 
 function delete_user(req, res, next) {
-  console.log(req.body.id);
   db.collection('users').deleteOne({
     _id: new mongo.ObjectID(req.body.id)
   }, done);
 
   function done(err, data) {
-    console.log("de code komt hier.....")
     if (err) {
       next(err)
     } else {
@@ -115,13 +150,15 @@ function delete_user(req, res, next) {
 }
 
 function get_user(req, res, next) {
-  const id = req.params.id
+  const id = req.params.id.toString()
+  console.log(req.params)
 
   db.collection('users').findOne({
-    _id: new mongo.ObjectID(id),
+    _id: ObjectID(id),
   }, loaduser);
 
   function loaduser(err, data) {
+    console.log(data)
     if (err) {
       next(err);
     } else {
@@ -134,13 +171,17 @@ function get_user(req, res, next) {
 
 
 function edit_user(req, res, next) {
+  let edit_id;
+  console.log(req.body.id)
+  if(req.body.id){
+    edit_id = req.body.id
+  }else{
+    edit_id = req.session.user.id
+  }
 
-
-  console.log(req.params)
-
-
-  db.collection('users').updateOne({ _id: ObjectID(req.body._id) },
-  {
+  db.collection('users').updateOne({
+    _id: ObjectID(edit_id)
+  }, {
     $set: {
       firstname: req.body.firstname,
       lastname: req.body.lastname,
@@ -156,14 +197,116 @@ function edit_user(req, res, next) {
     },
   }, update_user);
 
-function update_user(err, data) {
-  if (err) {
-    next(err);
-  } else {
-    res.redirect('/admin');
+  function update_user(err, data) {
+    if (err) {
+      next(err);
+    } else {
+      res.redirect('/');
+    }
+  }
+}
+
+function init_meet(req, res, next) {
+
+  const query = {
+    age: {
+      $lte: "31"
+    },
+    area: {
+      $eq: req.session.user.area
+    },
+    gender: {
+      $eq: req.session.user.orientation
+    }
+  }
+ 
+  db.collection("users").findOne({gender: req.session.user.orientation}, done);
+
+  function done(err, data) {
+    if (err) {
+      next(err)
+    } else {
+      console.log(data)
+      res.render('pages/meet', {data: data})
+    }
+  }
+}
+
+function filter(req, res, next) {
+
+  const query = {
+    age: {
+      $lte: req.body.age
+    },
+    area: {
+      $eq: req.body.distance
+    },
+    gender: {
+      $eq: req.session.user.orientation
+    }
+  }
+  db.collection("users").find(query).toArray(done)
+
+  function done(err, data) {
+    if (err) {
+      next(err)
+    } else {
+      res.render('pages/meet', {
+        data: data
+      })
+    }
   }
 }
 
 
+function login(req, res, next) {
 
+  const query = {
+    email: {
+      $eq: req.body.email
+    },
+    password: {
+      $eq: req.body.password
+    }
+  }
+  db.collection("users").find(query).toArray(done)
+
+
+  function done(err, data) {
+    if (err) {
+      next(err)
+    } else {
+      if (data.length >= 1) {
+        const s_userID = data.map(data => data._id);
+        const s_firstname = data.map(data => data.firstname);
+        const s_lastname = data.map(data => data.lastname);
+        const s_age = data.map(data => data.age);
+        const s_gender = data.map(data => data.gender);
+        const s_interest = data.map(data => data.interest);
+        const s_intent = data.map(data => data.intent);
+        const s_orientation = data.map(data => data.orientation);
+        const s_area = data.map(data => data.area);
+        req.session.user = {
+          id: s_userID.toString(),
+          firstname: s_firstname.toString(),
+          lastname: s_lastname.toString(),          
+          email: req.body.email,
+          age: s_age.toString(), 
+          gender: s_gender.toString(),
+          interest: s_interest.toString(),
+          intent: s_intent.toString(),
+          orientation: s_orientation.toString(),
+          area: s_area.toString(),
+        }         
+        res.redirect('/')
+      } else {
+        res.redirect('/login')
+      }
+    }
+  }
+}
+
+function logout(req, res, next) {
+  req.session.destroy();
+  res.redirect('/login')
 }

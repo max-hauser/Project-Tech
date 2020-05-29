@@ -11,6 +11,9 @@ The semester has 3 courses:
 The goal of this project was to learn about the basics of Node.js, Git and Express.
 With these tools I've build a filter-feature for a dating website.
 
+I've build the dating app Amora. You can login to the app, change your preferences and go on the dating page. On the dating
+page you can use the filter to manipulate the results.
+
 ![alt text](https://github.com/max-hauser/Project-Tech/blob/master/static/amore-readme.png)
 
 ## Getting started

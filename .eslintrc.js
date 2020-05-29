@@ -16,5 +16,9 @@ module.exports = {
     ecmaVersion: 11,
   },
   rules: {
-  },
+    "no-underscore-dangle" : ["off", { "allow": ["foo_", "_bar"] }],
+    "prefer-template": ["allow-single-concat"],
+    "import/newline-after-import": ["error", {count: 2}],
+    "no-use-before-define": ["error", {"functions": false, "classes": false}]
+  }
 };

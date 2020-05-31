@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>PE Feature </title>
+  <style>
+    body {
+      margin: 0px;
+      background-color: #f0f0f0;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    main {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    main section {
+      width: 28vw;
+      height: 50vh;
+      padding: 15px;
+      text-align: center;
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0px 0px 50px #d1d1d1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main section form {
+      margin-top: 33%;
+    }
+
+    input[type=range].styling {
+      -webkit-appearance: none;
+      width: 50%;
+    }
+
+    input[type=range].styling:focus {
+      outline: none;
+    }
+
+    input[type=range].styling::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      animate: 0.2s;
+      box-shadow: 1px 1px 1px #d0d0d0, 0px 0px 1px #d0d0d0;
+      background: #E9ECEF;
+      border-radius: 10px;
+    }
+
+    input[type=range].styling::-webkit-slider-thumb {
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      height: 36px;
+      width: 16px;
+      border-radius: 3px;
+      background: #2C2967;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -14px;
+    }
+
+    input[type=range].styling:focus::-webkit-slider-runnable-track {
+      background: #d1d1d1;
+    }
+
+    span {
+      background-color: #E9ECEF;
+      display: inline-block;
+      text-align: center;
+      border-radius: 100%;
+      vertical-align: middle;
+      padding: 8px;
+      border: 1px solid #d1d1d1;
+    }
+
+    span.zero {
+      width: 18px;
+    }
+
+    .range-wrap {
+      position: relative;
+      margin-top: 33%;
+    }
+
+    .range_value {
+      position: absolute;
+      top: -50%;
+    }
+
+    range-value span {
+      width: 30px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      color: #fff;
+      font-size: 12px;
+      display: block;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      border-radius: 6px;
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    .range-value {
+      position: absolute;
+      top: -6vh;
+    }
+
+    .range-value span {
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      background: #E9ECEF;
+      color: #000;
+      display: block;
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 0);
+      border-radius: 100%;
+    }
+
+    .value-wrap {
+      position: relative;
+      width: 50%;
+      margin: 0px auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main>
+
+    <section>
+      <h2>Alleen HTML</h2>
+
+      <form action="">
+        18 <input type="range" name="" id="" min="0" max="50"> 50
+      </form>
+    </section>
+
+    <section>
+      <h2>Met CSS</h2>
+
+      <form action="">
+        <span class="zero">18</span> <input type="range" name="" id="" class="styling" min="0" max="50"> <span>50</span>
+      </form>
+    </section>
+
+    <section>
+      <h2>Met CSS en Javascript</h2>
+
+      <div class="range-wrap">
+        <div class="value-wrap">
+          <div class="range-value" id="rangeV"></div>
+        </div>
+        <span class="zero">18</span> <input id="range" type="range" min="18" max="50" value="35" step="1" class="styling">
+        <span>50</span>
+      </div>
+    </section>
+
+
+  </main>
+
+  <script>
+    const
+      range = document.getElementById('range'),
+      rangeV = document.getElementById('rangeV'),
+      setValue = () => {
+        const
+          newValue = Number((range.value - range.min) * 100 / (range.max - range.min)),
+          newPosition = 9 - (newValue * 0.2);
+        rangeV.innerHTML = `<span>${range.value}</span>`;
+        rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+      };
+    document.addEventListener("DOMContentLoaded", setValue);
+    range.addEventListener('input', setValue);
+  </script>
+
+  <!---
+  
+    Source:
+
+    Coyier, C. (2020, March 26). Value Bubbles for Range Inputs. Retrieved May 31, 2020, from https://css-tricks.com/value-bubbles-for-range-inputs/
+  
+  -->
+
+</body>
+
+</html>

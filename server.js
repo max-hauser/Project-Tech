@@ -11,7 +11,7 @@ const { ObjectID } = require('mongodb');
 
 
 let db;
-const db_key = "mongodb+srv://admin:admin@cluster0-po8zm.mongodb.net/test?retryWrites=true&w=majority";
+const db_key = "mongodb+srv://" + process.env.DBUSER + ":" + process.env.DBPASS + process.env.CLUSTER + "/" + process.env.Q1 + "=" +  process.env.Q2 + "=" + process.env.Q3;
 MongoClient.connect(db_key, function (err, client) { if (err) { throw err } else {} db = client.db("mydb"); });
 
 var upload = multer({ dest: 'static/images/users/'})

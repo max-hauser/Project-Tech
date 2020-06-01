@@ -50,3 +50,13 @@ input {
 .btn-group form button {
   width: 100%;
 }
+
+#filter .form-group div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+#filter .form-group div label{
+  padding-left: 15px;
+}

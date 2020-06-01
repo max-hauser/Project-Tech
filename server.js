@@ -35,6 +35,7 @@ app
   .post('/account', logout)
   .post('/edituser', upload.single('picture'), edit_user)
   .post('/reject', reject)
+  .post('/match', match)
 
   .get('/', check_session, load_homepage)
   .get('/admin',check_session, adminpanel)
@@ -211,14 +212,22 @@ function edit_user(req, res, next) {
   }
 }
 
+function exlude_list(req, res, next) {
+  let exlude_list = [];
+  const rejected_users = req.session.user.rejected_users
+  const invited_users = req.session.user.invited_users
+  const concat_list = rejected_users.concat(invited_users);
+  concat_list.forEach((user)=>{
+    exl_user = ObjectID(user);
+    exlude_list.push(exl_user);
+  })
+  return exlude_list;
+}
+
+
 function init_meet(req, res, next) {
 
-  const rejected_users =  req.session.user.rejected_users;
-  const rejected_users_list = [];
-  rejected_users.forEach((userID)=>{
-    let x = ObjectID(userID);
-    rejected_users_list.push(x);
-  })
+  let exludelist = exlude_list(req, res, next);
 
   const query = {
     age: {
@@ -231,7 +240,7 @@ function init_meet(req, res, next) {
       $eq: req.session.user.orientation
     },
     _id: {
-      $nin: rejected_users_list
+      $nin: exludelist
     }
   }
 
@@ -248,14 +257,12 @@ function init_meet(req, res, next) {
   }
 }
 
+
+
+
 function filter(req, res, next) {
 
-  const rejected_users =  req.session.user.rejected_users;
-  const rejected_users_list = [];
-  rejected_users.forEach((userID)=>{
-    let x = ObjectID(userID);
-    rejected_users_list.push(x);
-  }) 
+  let exludelist = exlude_list(req, res, next);
 
   const query = {
     age: {
@@ -268,7 +275,7 @@ function filter(req, res, next) {
       $eq: req.session.user.orientation
     },
     _id: {
-      $nin: rejected_users_list
+      $nin: exludelist
     }
   }
   db.collection("users").findOne(query, done);
@@ -323,7 +330,8 @@ function login(req, res, next) {
           intent: s_intent.toString(),
           orientation: s_orientation.toString(),
           area: s_area.toString(),
-          rejected_users : []
+          rejected_users : [],
+          invited_users : []
         }         
         res.redirect('/')
       } else {
@@ -342,5 +350,11 @@ function reject(req, res, next) {
   let rejected_userID = ObjectID(req.body.rejected_user)
   req.session.user.rejected_users.push(rejected_userID)
   res.redirect('/meet')
-  
+}
+
+function match(req, res, next) {
+  let match_userID = ObjectID(req.body.matched_user)
+  req.session.user.invited_users.push(match_userID)
+  console.log("invitation send")
+  res.redirect('/meet')
 }

@@ -8,6 +8,7 @@ const MongoClient = require('mongodb').MongoClient;
 const multer = require('multer')
 const session = require('express-session')
 const { ObjectID } = require('mongodb');
+require('dotenv').config()
 
 
 let db;

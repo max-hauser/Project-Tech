@@ -114,3 +114,11 @@ article figure + ul {
 fieldset {
   margin: 5vh 0;
 }
+
+.btn-group form {
+  width: 50%;
+}
+
+.btn-group form button {
+  width: 100%;
+}

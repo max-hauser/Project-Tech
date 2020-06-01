@@ -42,3 +42,11 @@ input {
   display: block;
   margin-bottom: 15px;
 }
+
+.btn-group form {
+  width: 50%;
+}
+
+.btn-group form button {
+  width: 100%;
+}

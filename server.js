@@ -28,6 +28,7 @@ app
   
   .post('/edit', upload.single('picture'), edit_user)
   .post('/add', upload.single('picture'), add_user)
+  .post('/register', upload.single('picture'), add_user)
   .post('/delete', delete_user)
   .post('/meet', filter)
   .post('/login', login)
@@ -38,6 +39,7 @@ app
   .get('/', check_session, load_homepage)
   .get('/admin',check_session, adminpanel)
   .get('/add', check_session, add_userpage)
+  .get('/register', add_registerpage)
   .get('/edituser', check_session, edituser)
   .get('/admin', check_session, load_admin_page)
   .get('/chats', check_session, load_chat_page)
@@ -78,6 +80,10 @@ function load_homepage(req, res, next) {
 
 function add_userpage(req, res, next) {
   res.render('pages/add');
+}
+
+function add_registerpage(req, res, next) {
+  res.render('pages/register');
 }
 
 function load_admin_page(req, res, next) {

@@ -32,6 +32,7 @@ app
   .post('/login', login)
   .post('/account', logout)
   .post('/edituser', upload.single('picture'), edit_user)
+  .post('/reject', reject)
 
   .get('/', check_session, load_homepage)
   .get('/admin',check_session, adminpanel)
@@ -151,14 +152,12 @@ function delete_user(req, res, next) {
 
 function get_user(req, res, next) {
   const id = req.params.id.toString()
-  console.log(req.params)
 
   db.collection('users').findOne({
     _id: ObjectID(id),
   }, loaduser);
 
   function loaduser(err, data) {
-    console.log(data)
     if (err) {
       next(err);
     } else {
@@ -172,7 +171,6 @@ function get_user(req, res, next) {
 
 function edit_user(req, res, next) {
   let edit_id;
-  console.log(req.body.id)
   if(req.body.id){
     edit_id = req.body.id
   }else{
@@ -208,6 +206,13 @@ function edit_user(req, res, next) {
 
 function init_meet(req, res, next) {
 
+  const rejected_users =  req.session.user.rejected_users;
+  const rejected_users_list = [];
+  rejected_users.forEach((userID)=>{
+    let x = ObjectID(userID);
+    rejected_users_list.push(x);
+  })
+
   const query = {
     age: {
       $lte: "31"
@@ -217,22 +222,33 @@ function init_meet(req, res, next) {
     },
     gender: {
       $eq: req.session.user.orientation
+    },
+    _id: {
+      $nin: rejected_users_list
     }
   }
- 
-  db.collection("users").findOne({gender: req.session.user.orientation}, done);
+
+  db.collection("users").findOne(query, done);
+
 
   function done(err, data) {
+    console.log(query)
     if (err) {
       next(err)
     } else {
-      console.log(data)
-      res.render('pages/meet', {data: data})
+      res.render('pages/meet', {user: data})
     }
   }
 }
 
 function filter(req, res, next) {
+
+  const rejected_users =  req.session.user.rejected_users;
+  const rejected_users_list = [];
+  rejected_users.forEach((userID)=>{
+    let x = ObjectID(userID);
+    rejected_users_list.push(x);
+  }) 
 
   const query = {
     age: {
@@ -243,16 +259,19 @@ function filter(req, res, next) {
     },
     gender: {
       $eq: req.session.user.orientation
+    },
+    _id: {
+      $nin: rejected_users_list
     }
   }
-  db.collection("users").find(query).toArray(done)
+  db.collection("users").findOne(query, done);
 
   function done(err, data) {
     if (err) {
       next(err)
     } else {
       res.render('pages/meet', {
-        data: data
+        user: data
       })
     }
   }
@@ -297,6 +316,7 @@ function login(req, res, next) {
           intent: s_intent.toString(),
           orientation: s_orientation.toString(),
           area: s_area.toString(),
+          rejected_users : []
         }         
         res.redirect('/')
       } else {
@@ -309,4 +329,11 @@ function login(req, res, next) {
 function logout(req, res, next) {
   req.session.destroy();
   res.redirect('/login')
+}
+
+function reject(req, res, next) {
+  let rejected_userID = ObjectID(req.body.rejected_user)
+  req.session.user.rejected_users.push(rejected_userID)
+  res.redirect('/meet')
+  
 }

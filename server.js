@@ -9,6 +9,7 @@ const multer = require('multer')
 const session = require('express-session')
 const { ObjectID } = require('mongodb');
 require('dotenv').config()
+const io = require('socket.io')(4000);
 
 
 let db;
@@ -35,12 +36,13 @@ app
   .post('/account', logout)
   .post('/edituser', upload.single('picture'), edit_user)
   .post('/reject', reject)
-  .post('/match', match)
+  .post('/invite', invite)
 
   .get('/', check_session, load_homepage)
   .get('/admin',check_session, adminpanel)
   .get('/add', check_session, add_userpage)
   .get('/register', add_registerpage)
+  .get('/chatroom', check_session, load_chatroom_page)
   .get('/edituser', check_session, edituser)
   .get('/admin', check_session, load_admin_page)
   .get('/chats', check_session, load_chat_page)
@@ -103,6 +105,10 @@ function edituser(req, res, next) {
   res.render('pages/edituser', {user: req.session.user})
 }
 
+function load_chatroom_page(req, res, next) {
+  res.render('pages/chatroom', {user: req.session.user})
+}
+
 
 
 function adminpanel(req, res, next) {
@@ -132,7 +138,9 @@ function add_user(req, res, next) {
     intent: req.body.intent,
     orientation: req.body.orientation,
     area: req.body.area,
-    picture: req.file ? req.file.filename : null
+    picture: req.file ? req.file.filename : null,
+    possible_match : [],
+    rejected_user : []
   }, done)
 
   function done(err, data) {
@@ -212,22 +220,28 @@ function edit_user(req, res, next) {
   }
 }
 
-function exlude_list(req, res, next) {
-  let exlude_list = [];
-  const rejected_users = req.session.user.rejected_users
-  const invited_users = req.session.user.invited_users
-  const concat_list = rejected_users.concat(invited_users);
-  concat_list.forEach((user)=>{
-    exl_user = ObjectID(user);
-    exlude_list.push(exl_user);
-  })
-  return exlude_list;
+async function exlude_list(current_user) {
+   const user = await new Promise(resolve =>{
+    resolve(db.collection("users").findOne({_id: ObjectID(current_user)}))
+  }, 3000)
+
+  const pos_match = user.possible_match;
+  const reject_user = user.rejected_user;
+  const exluded_users = pos_match.concat(reject_user)
+
+  return exluded_users
 }
 
+async function init_meet(req, res, next) {
+  const current_user = req.session.user.id
+  let exludelist = await exlude_list(current_user);
+  
+  const exl_lst = [];
+  exludelist.forEach(user => {
+    exl_lst.push(ObjectID(user));
+  });
 
-function init_meet(req, res, next) {
-
-  let exludelist = exlude_list(req, res, next);
+  console.log(exl_lst)
 
   const query = {
     age: {
@@ -240,15 +254,13 @@ function init_meet(req, res, next) {
       $eq: req.session.user.orientation
     },
     _id: {
-      $nin: exludelist
+      $nin: exl_lst
     }
   }
 
   db.collection("users").findOne(query, done);
 
-
   function done(err, data) {
-    console.log(query)
     if (err) {
       next(err)
     } else {
@@ -257,12 +269,17 @@ function init_meet(req, res, next) {
   }
 }
 
+async function filter(req, res, next) {
 
+  const current_user = req.session.user.id
+  let exludelist = await exlude_list(current_user);
+  
+  const exl_lst = [];
+  exludelist.forEach(user => {
+    exl_lst.push(ObjectID(user));
+  });
 
-
-function filter(req, res, next) {
-
-  let exludelist = exlude_list(req, res, next);
+  console.log(exl_lst)
 
   const query = {
     age: {
@@ -346,15 +363,67 @@ function logout(req, res, next) {
   res.redirect('/login')
 }
 
-function reject(req, res, next) {
-  let rejected_userID = ObjectID(req.body.rejected_user)
-  req.session.user.rejected_users.push(rejected_userID)
-  res.redirect('/meet')
+async function check_reject_list(logged_in_user, rejected_userID) {
+  // check of de invited_user al in de invited_user lijst staat
+  return new Promise(resolve =>{
+    query = db.collection("users").findOne( {_id: ObjectID(logged_in_user)}, {rejected_user: { $eq: rejected_userID}});
+    resolve(query);
+  }, 3000)
 }
 
-function match(req, res, next) {
-  let match_userID = ObjectID(req.body.matched_user)
-  req.session.user.invited_users.push(match_userID)
-  console.log("invitation send")
-  res.redirect('/meet')
+async function addto_reject_list(logged_in_user, rejected_user) {
+  // update invited list
+  return new Promise(resolve =>{
+    query = db.collection("users").updateOne({_id: ObjectID(logged_in_user)}, { $push: {rejected_user: rejected_user} })
+    resolve(query)
+  }, 3000)
+}
+
+async function reject(req, res, next) {
+  const logged_in_user = req.session.user.id;
+  const rejected_user = ObjectID(req.body.rejected_user);
+
+  const reject_check = await check_reject_list(logged_in_user, rejected_user)
+
+  if((reject_check.rejected_user).length > 0){
+    // voeg niet toe
+    res.redirect('/meet')
+  }else{
+    update_reject_list = await addto_reject_list(logged_in_user, rejected_user)
+    res.redirect('/meet')
+  }
+}
+
+async function check_invite_list(logged_in_user, invited_user) {
+    // check of de invited_user al in de invited_user lijst staat
+    return new Promise(resolve =>{
+      query = db.collection("users").findOne( {_id: ObjectID(logged_in_user)}, {possible_match: { $eq: invited_user}});
+      resolve(query);
+    }, 3000)
+}
+
+async function addto_invite_list(logged_in_user, invited_user) {
+  // update invited list
+  return new Promise(resolve =>{
+    query = db.collection("users").updateOne({_id: ObjectID(logged_in_user)}, { $push: {possible_match: invited_user} })
+    resolve(query)
+  }, 3000)
+}
+ 
+async function invite(req, res, next) {
+  const logged_in_user = req.session.user.id;
+  const invited_user = ObjectID(req.body.matched_user);
+
+  const invite_check = await check_invite_list(logged_in_user, invited_user);
+  
+  if((invite_check.possible_match).length > 0){
+    // voeg niet toe aan invite lijst
+    console.log("Gebruiker wordt niet toegevoegd")
+    res.redirect('/meet')
+  }else{
+    console.log("Gebruiker wordt wel toegevoegd")
+    update_invite_list = await addto_invite_list(logged_in_user, invited_user);
+    res.redirect('/meet')
+  }
+
 }

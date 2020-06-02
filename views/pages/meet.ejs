@@ -20,6 +20,7 @@
             <%- include ("../partials/filter") %>
 
             
+
           <% if(user){ %>  
             <div class="card" style="width:400px">
                 <img class="card-img-top" src="/images/users/<%= user.picture %>" alt="Card image" style="width:100%">
@@ -28,7 +29,7 @@
                     <p class="card-text">Hi my name is <%= user.firstname %>.<br> I'm <%= user.age %> years old and I'm looking for a <%= user.intent %> partner. <br><br>My interests are: <%= user.interest %></p>
                     <div class="btn-group">
                         <form action="/reject" method="POST"> <input type="hidden" value="<%= user._id %>" name="rejected_user"> <button class="btn btn-danger"><span class="far fa-times-circle"></span></button></form>
-                        <form action="/match" method="POST"> <input type="hidden" value="<%= user._id %>" name="matched_user"> <button  class="btn btn-success"><span class="fas fa-heart"></span></button> </form>
+                        <form action="/invite" method="POST"> <input type="hidden" value="<%= user._id %>" name="matched_user"> <button  class="btn btn-success"><span class="fas fa-heart"></span></button> </form>
                     </div>
                 </div>
             </div>

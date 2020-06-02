@@ -1,0 +1,83 @@
+<!-- views/pages/CHATROOM.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include ("../partials/head") %>
+  <script defer src="http://localhost:4000/socket.io/socket.io.js"></script>
+  <script defer src="../../chat.js"></script>
+  <style>
+    .jumbotron {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      flex-direction: column;
+    }
+
+    .chat-container{
+      margin-top: 50px;
+    }
+
+    #message-container {
+      width: 80%;
+      max-width: 1200px;
+      margin: 0px auto;
+    }
+
+    #message-container div {
+      background-color: #CCC;
+      padding: 5px;
+    }
+
+    #message-container div:nth-child(2n) {
+      background-color: #FFF;
+    }
+
+    #send-container {
+      padding-top: 100px;
+      bottom: 0;
+      background-color: white;
+      max-width: 1200px;
+      width: 80%;
+      display: flex;
+      margin: 0px auto;
+      left: 0;
+      right: 0;
+    }
+
+    #message-input {
+      flex-grow: 1;
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+
+<body class="container">
+
+  <header>
+    <%- include ("../partials/header") %>
+  </header>
+
+  <main>
+    <div class="jumbotron">
+      <h1>Chatroom</h1>
+      <div class="chat-container">
+        <div id="message-container"></div>
+        <form id="send-container">
+          <input type="text" id="message-input">
+          <button type="submit" id="send-button">Send</button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <%- include ("../partials/footer") %>
+
+  </footer>
+
+</body>
+
+</html>

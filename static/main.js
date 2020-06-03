@@ -1,30 +1,36 @@
-'use strict'
+if(window.location.href === "http://localhost:3000/meet") {
+  const age = document.querySelector("#age");
+  const age_value = document.querySelector("#age_value");
 
-window.addEventListener("load", get_filter_params);
+  console.log(age);
+  
+  age.addEventListener("input", (e) =>{
 
-const submit_filter = document.querySelector("#submit_pref");
-submit_filter.addEventListener("click", get_filter_params);
+    const newValue = Number((age.value - age.min) * 100 / (age.max - age.min));
+    const newPosition = 8 - (newValue * 0.5);
 
-function get_filter_params() {
-
-  const filter = document.querySelector("#filter");
-  const inputs = filter.querySelectorAll("input");
-  let filter_params = [];
-
-  inputs.forEach((input) => {
-
-    if (input.type === "radio") {
-      if (input.checked === true) {
-        filter_params.push(input.value);
-      }
-    } else {
-      filter_params.push(input.value);
-    }
+    age_value.innerHTML = `<span> ${e.target.value} </span>`;
+    age_value.style.left = `calc(${newValue}% + (${newPosition}px))`;
   });
 
-  send_to_server(filter_params);
-}
 
-function send_to_server(params){
-  console.log(params);
+  const distance_input = document.querySelector("#distance");
+  const distance_value = document.querySelector("#distance_value");
+
+  distance_input.addEventListener("input", (e)=>{
+    console.log(e.target.value)
+    if(e.target.value == 1){
+      console.log("city");
+      distance_value.innerHTML = `<span>City</span>`;
+      distance_value.style.left = 5 + "%";
+    }else if(e.target.value == 2){
+      console.log("country");
+      distance_value.innerHTML = `<span>Country</span>`;
+      distance_value.style.left = 45 + "%";
+      }else{
+        console.log("world");
+        distance_value.innerHTML = `<span>World</span>`;
+        distance_value.style.left = 88 + "%";
+      }
+    });
 }

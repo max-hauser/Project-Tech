@@ -10,15 +10,16 @@ const session = require('express-session')
 const { ObjectID } = require('mongodb');
 require('dotenv').config()
 const io = require('socket.io')(4000);
+var upload = multer({ dest: 'static/images/users/'})
 
-
+// DATABASE CONNECTIE ----------------------------------------------------------------------------------------------------
 let db;
 const db_key = "mongodb+srv://" + process.env.DBUSER + ":" + process.env.DBPASS + process.env.CLUSTER + "/" + process.env.Q1 + "=" +  process.env.Q2 + "=" + process.env.Q3;
 MongoClient.connect(db_key, function (err, client) { if (err) { throw err } else {} db = client.db("mydb"); });
 
-var upload = multer({ dest: 'static/images/users/'})
+//  ----------------------------------------------------------------------------------------------------
 
-// Expres requests
+// Expres requests ----------------------------------------------------------------------------------------------------
 app
   .set('view engine', 'ejs')
 
@@ -60,6 +61,8 @@ app
 
   .listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
 
+//------------------------------------------------------------------------------------------------
+
 
 // functies om met de database te communiceren
 
@@ -72,6 +75,8 @@ function check_session(req, res, next) {
     res.redirect('/login')
   }
 }
+
+// RENDER FUNCTIES ------------------------------------------------------------------------------------
 
 function load_login_page(req, res, next) {
   res.render('pages/login');
@@ -110,8 +115,14 @@ function load_chatroom_page(req, res, next) {
 }
 
 
+// ------------------------------------------------------------------------------------------------------------
+
+
 
 function adminpanel(req, res, next) {
+
+  // Laad het adminpanel als je naar /admin gaat
+
   db.collection('users').find().toArray(done)
 
   function done(err, data) {
@@ -126,6 +137,8 @@ function adminpanel(req, res, next) {
 }
 
 function add_user(req, res, next) {
+
+  // Voeg een user toe aan de database
 
   db.collection('users').insertOne({
     firstname: req.body.firstname,
@@ -153,6 +166,9 @@ function add_user(req, res, next) {
 }
 
 function delete_user(req, res, next) {
+
+  // Verwijder een user uit de database
+
   db.collection('users').deleteOne({
     _id: new mongo.ObjectID(req.body.id)
   }, done);
@@ -167,6 +183,9 @@ function delete_user(req, res, next) {
 }
 
 function get_user(req, res, next) {
+
+  // Verkrijg een user uit de database
+
   const id = req.params.id.toString()
 
   db.collection('users').findOne({
@@ -186,6 +205,9 @@ function get_user(req, res, next) {
 
 
 function edit_user(req, res, next) {
+
+  // Wijzig een user
+
   let edit_id;
   if(req.body.id){
     edit_id = req.body.id
@@ -221,6 +243,9 @@ function edit_user(req, res, next) {
 }
 
 async function exlude_list(current_user) {
+
+  // Verkrijg de user uit de invite lijst en rejected lijst. Deze users moeten uit de resultaten blijven
+
    const user = await new Promise(resolve =>{
     resolve(db.collection("users").findOne({_id: ObjectID(current_user)}))
   }, 3000)
@@ -233,6 +258,9 @@ async function exlude_list(current_user) {
 }
 
 async function init_meet(req, res, next) {
+
+  // Haal mogelijke matches uit de database
+
   const current_user = req.session.user.id
   let exludelist = await exlude_list(current_user);
   
@@ -240,8 +268,6 @@ async function init_meet(req, res, next) {
   exludelist.forEach(user => {
     exl_lst.push(ObjectID(user));
   });
-
-  console.log(exl_lst)
 
   const query = {
     age: {
@@ -270,6 +296,8 @@ async function init_meet(req, res, next) {
 }
 
 async function filter(req, res, next) {
+
+  // Filter dmv het filter-formulier
 
   const current_user = req.session.user.id
   let exludelist = await exlude_list(current_user);
@@ -311,6 +339,8 @@ async function filter(req, res, next) {
 
 function login(req, res, next) {
 
+  // Login form
+
   const query = {
     email: {
       $eq: req.body.email
@@ -327,6 +357,9 @@ function login(req, res, next) {
       next(err)
     } else {
       if (data.length >= 1) {
+
+        // Sessie info
+
         const s_userID = data.map(data => data._id);
         const s_firstname = data.map(data => data.firstname);
         const s_lastname = data.map(data => data.lastname);
@@ -359,6 +392,9 @@ function login(req, res, next) {
 }
 
 function logout(req, res, next) {
+
+  // Loguit functie
+
   req.session.destroy();
   res.redirect('/login')
 }
@@ -380,6 +416,9 @@ async function addto_reject_list(logged_in_user, rejected_user) {
 }
 
 async function reject(req, res, next) {
+
+  // Reject handler om te kijken of de user al in de reject lijst staat
+
   const logged_in_user = req.session.user.id;
   const rejected_user = ObjectID(req.body.rejected_user);
 
@@ -411,6 +450,9 @@ async function addto_invite_list(logged_in_user, invited_user) {
 }
  
 async function invite(req, res, next) {
+
+// Invite handler om te kijken of de user al in de invite lijst staat
+  
   const logged_in_user = req.session.user.id;
   const invited_user = ObjectID(req.body.matched_user);
 

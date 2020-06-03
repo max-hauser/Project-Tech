@@ -37,6 +37,10 @@ footer p.text-center {
   width: 100%;
 }
 
+.form-control{
+  border: 0px;
+}
+
 
 input {
   display: block;
@@ -59,4 +63,38 @@ input {
 
 #filter .form-group div label{
   padding-left: 15px;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 1px 1px 1px #d0d0d0, 0px 0px 1px #d0d0d0;
+  background: #E9ECEF;
+  border-radius: 10px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #2C2967;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -14px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #d1d1d1;
 }

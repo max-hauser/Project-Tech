@@ -170,7 +170,7 @@ function delete_user(req, res, next) {
   // Verwijder een user uit de database
 
   db.collection('users').deleteOne({
-    _id: new mongo.ObjectID(req.body.id)
+    _id: ObjectID(req.body.id)
   }, done);
 
   function done(err, data) {

@@ -7,7 +7,7 @@
   <%- include ("../partials/head") %>
 </head>
 
-<body class="container">
+<body id="admin">
 
   <header>
     <%- include ("../partials/header") %>
@@ -15,9 +15,9 @@
 
   <main>
 
-    <div class="jumbotron">
-      <div class="container">
-          <table class="table">
+    <section>
+      <div>
+          <table>
             <thead>
               <tr>
                 <th>Firstname</th>
@@ -33,19 +33,19 @@
                   <tr>
                     <td><%= user.firstname %></td>
                     <td><%= user.lastname %></td>
-                    <td><%= user.email %></td> 
+                    <td><%= user.email %></td>
                     <td><a href="/<%= user._id %>"><span class="fas fa-edit"></span></a></td>
                     <td><form action="/delete" method="POST"><button value="<%= user._id %>" name="id"><span class="fas fa-user-slash"></span></button></form></td>
                   </tr>
-                <%})%>  
+                <%})%>
                 <tr>
                     <td><a href="/add"> <span class="fas fa-user-plus"></span> Click here to add a user</a></td>
                   </tr>
             </tbody>
           </table>
-        </div>      
+        </div>
 
-    </div>
+    </section>
 
   </main>
 

@@ -1,31 +1,26 @@
 
 <!-- The Modal -->
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
 
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <h4 class="modal-title">Filter preferences</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
+<form action="" method="POST" id="filter">
+  <fieldset>
+    <legend>Filter</legend>
 
-      <!-- Modal body -->
-      <div class="modal-body text-left">
-          <form action="" method="POST" id="filter">
-            <div class="form-group">
-              <label for="age">Age:</label>
-              <div id="age_value"></div>
-              <input type="range" min="18" max="40" class="form-control" id="age" placeholder="Enter email" name="age" value="18">
-            </div>
-            <div class="form-group">
-                <label for="distance">Distance:</label>
-                <div id="distance_value"></div>
-                <input type="range" min="1" max="3" class="form-control" id="distance" placeholder="Enter email" name="distance">
-            </div>
-            <button>Filter</button>
-          </form>
-      </div>
-    </div>
+  <div>
+    <fieldset>
+      <legend>Maximum Age:</legend>
+      <label for="age">Age:</label>
+      <div id="age_value"></div>
+      <input type="range" min="18" max="40"id="age" placeholder="Enter email" name="age" value="18">
+    </fieldset>
   </div>
-</div>
+  <div>
+    <fieldset>
+      <legend>Distance:</legend>
+      <label for="distance">Distance:</label>
+      <div id="distance_value"></div>
+      <input type="range" min="1" max="3" id="distance" placeholder="Enter email" name="distance">
+    </fieldset>
+  </div>
+  <button>Filter</button>
+  </fieldset>
+</form>

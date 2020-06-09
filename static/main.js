@@ -1,9 +1,22 @@
 if(window.location.href === "http://localhost:3000/meet") {
+
+  // popup filter function
+
+  const filter_btn = document.querySelector("#toggle_filter");
+  const filter = document.querySelector("#filter");
+
+  function toggle_filter(event) {
+    event.preventDefault();
+    console.log(filter)
+    filter.classList.toggle('show')
+  }
+
+  filter_btn.addEventListener('click', toggle_filter);
+
+
   const age = document.querySelector("#age");
   const age_value = document.querySelector("#age_value");
 
-  console.log(age);
-  
   age.addEventListener("input", (e) =>{
 
     const newValue = Number((age.value - age.min) * 100 / (age.max - age.min));

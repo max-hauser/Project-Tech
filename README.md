@@ -26,3 +26,13 @@ You can pull this project from this page, or using Git. Furthermore you'll need 
 * Mongodb
 * Multer
 * Slug
+
+## How to install
+
+`$ git clone https://github.com/max-hauser/Project-Tech`
+
+#### Run Server
+` npm run start`
+
+#### ESLINT
+`npm install eslint`

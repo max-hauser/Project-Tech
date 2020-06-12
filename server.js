@@ -14,7 +14,8 @@ var upload = multer({ dest: 'static/images/users/'})
 
 // DATABASE CONNECTIE ----------------------------------------------------------------------------------------------------
 let db;
-const db_key = "mongodb+srv://" + process.env.DBUSER + ":" + process.env.DBPASS + process.env.CLUSTER + "/" + process.env.Q1 + "=" +  process.env.Q2 + "=" + process.env.Q3;
+//const db_key = "mongodb+srv://" + process.env.DBUSER + ":" + process.env.DBPASS + process.env.CLUSTER + "/" + process.env.Q1 + "=" +  process.env.Q2 + "=" + process.env.Q3;
+const db_key = process.env.URI;
 MongoClient.connect(db_key, function (err, client) { if (err) { throw err } else {} db = client.db("mydb"); });
 
 //  ----------------------------------------------------------------------------------------------------
@@ -27,7 +28,7 @@ app
   .use(bodyParser.urlencoded({ extended: true}))
   .use(bodyParser.json())
   .use(session({'secret': '343ji43j4n3jn4jk3n'}))
-  
+
   .post('/edit', upload.single('picture'), edit_user)
   .post('/add', upload.single('picture'), add_user)
   .post('/register', upload.single('picture'), add_user)
@@ -53,7 +54,7 @@ app
   .get('/:id', check_session, get_user)
 
   .use(express.static(__dirname + '/static'))
- 
+
   .use(function (req, res, next) {
     res.status(404).send("404 page, Sorry can't find that!")
   })
@@ -83,7 +84,7 @@ function load_login_page(req, res, next) {
 }
 
 function load_homepage(req, res, next) {
-  res.render('pages/index', {user: req.session.user}); 
+  res.render('pages/index', {user: req.session.user});
 }
 
 function add_userpage(req, res, next) {
@@ -263,7 +264,7 @@ async function init_meet(req, res, next) {
 
   const current_user = req.session.user.id
   let exludelist = await exlude_list(current_user);
-  
+
   const exl_lst = [];
   exludelist.forEach(user => {
     exl_lst.push(ObjectID(user));
@@ -301,7 +302,7 @@ async function filter(req, res, next) {
 
   const current_user = req.session.user.id
   let exludelist = await exlude_list(current_user);
-  
+
   const exl_lst = [];
   exludelist.forEach(user => {
     exl_lst.push(ObjectID(user));
@@ -372,9 +373,9 @@ function login(req, res, next) {
         req.session.user = {
           id: s_userID.toString(),
           firstname: s_firstname.toString(),
-          lastname: s_lastname.toString(),          
+          lastname: s_lastname.toString(),
           email: req.body.email,
-          age: s_age.toString(), 
+          age: s_age.toString(),
           gender: s_gender.toString(),
           interest: s_interest.toString(),
           intent: s_intent.toString(),
@@ -382,7 +383,7 @@ function login(req, res, next) {
           area: s_area.toString(),
           rejected_users : [],
           invited_users : []
-        }         
+        }
         res.redirect('/')
       } else {
         res.redirect('/login')
@@ -448,16 +449,16 @@ async function addto_invite_list(logged_in_user, invited_user) {
     resolve(query)
   }, 3000)
 }
- 
+
 async function invite(req, res, next) {
 
 // Invite handler om te kijken of de user al in de invite lijst staat
-  
+
   const logged_in_user = req.session.user.id;
   const invited_user = ObjectID(req.body.matched_user);
 
   const invite_check = await check_invite_list(logged_in_user, invited_user);
-  
+
   if((invite_check.possible_match).length > 0){
     // voeg niet toe aan invite lijst
     console.log("Gebruiker wordt niet toegevoegd")

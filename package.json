@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "build": "ng build",
-    "heroku-postbuild": "ng build --prod" // this will be run on Heroku
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",

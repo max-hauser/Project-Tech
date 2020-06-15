@@ -1,4 +1,4 @@
-if(window.location.href.contains("/meet")) {
+
 
   // popup filter function
 
@@ -46,4 +46,3 @@ if(window.location.href.contains("/meet")) {
         distance_value.style.left = 88 + "%";
       }
     });
-}

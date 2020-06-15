@@ -1,7 +1,7 @@
 // Requirements
 const express = require('express');
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const mongo = require('mongodb')
 const MongoClient = require('mongodb').MongoClient;
@@ -9,6 +9,7 @@ const multer = require('multer')
 const session = require('express-session')
 const { ObjectID } = require('mongodb');
 require('dotenv').config()
+const MemoryStore = require('memorystore')(session)
 const io = require('socket.io')(4000);
 var upload = multer({ dest: 'static/images/users/'})
 
@@ -16,10 +17,9 @@ var upload = multer({ dest: 'static/images/users/'})
 let db;
 
 const db_key = process.env.URI;
-MongoClient.connect(db_key,{ server: { auto_reconnect: true } }, function (err, client) { if (err) { throw err } else {} db = client.db("mydb"); });
+MongoClient.connect(db_key, { useNewUrlParser: true, useUnifiedTopology: true }, function (err, client) { if (err) { throw err } else {} db = client.db("mydb"); });
 
 //  ----------------------------------------------------------------------------------------------------
-
 // Expres requests ----------------------------------------------------------------------------------------------------
 app
   .set('view engine', 'ejs')
@@ -27,7 +27,15 @@ app
   .use(express.static('static'))
   .use(bodyParser.urlencoded({ extended: true}))
   .use(bodyParser.json())
-  .use(session({'secret': '343ji43j4n3jn4jk3n'}))
+    .use(session({
+        resave: false,
+        saveUninitialized: true,
+        secret: '343ji43j4n3jn4jk3n',
+        store: new MemoryStore({
+          checkPeriod: 86400000 // prune expired entries every 24h
+        }),
+      }))
+
 
   .post('/edit', upload.single('picture'), edit_user)
   .post('/add', upload.single('picture'), add_user)
@@ -60,7 +68,7 @@ app
   })
 
 
-  .listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+  .listen(PORT, () => console.log(`Example app listening at http://localhost:${PORT}`));
 
 //------------------------------------------------------------------------------------------------
 

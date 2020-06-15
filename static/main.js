@@ -1,4 +1,4 @@
-if(window.location.href === "http://localhost:3000/meet") {
+if(window.location.href.contains("/meet")) {
 
   // popup filter function
 

@@ -135,10 +135,6 @@ fieldset {
   border: none;
 }
 
-legend {
-  display: none;
-}
-
 #filter input {
   min-width: 100%;
 }

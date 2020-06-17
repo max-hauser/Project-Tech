@@ -3,9 +3,10 @@
 const filter_btn = document.querySelector("#toggle_filter");
 const filter = document.querySelector("#filter");
 
-filter.style.display = "none";
+filter.classList.add("hide");
 
 function toggle_filter(event) {
+  filter.classList.remove("hide");
   event.preventDefault();
   console.log(filter);
   filter.classList.toggle("show");

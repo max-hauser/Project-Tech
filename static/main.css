@@ -130,6 +130,10 @@ main section a {
   position: absolute;
 }
 
+#filter.hide {
+  display: none;
+}
+
 #filter label {
   display: none;
 }

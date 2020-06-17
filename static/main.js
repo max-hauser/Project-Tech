@@ -3,6 +3,8 @@
 const filter_btn = document.querySelector("#toggle_filter");
 const filter = document.querySelector("#filter");
 
+filter.style.display = "none";
+
 function toggle_filter(event) {
   event.preventDefault();
   console.log(filter);

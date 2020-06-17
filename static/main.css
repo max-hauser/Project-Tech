@@ -127,6 +127,7 @@ main section a {
 
 #filter.show {
   display: block;
+  position: absolute;
 }
 
 #filter label {

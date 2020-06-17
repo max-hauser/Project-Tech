@@ -102,6 +102,14 @@ main section a {
   text-decoration: none;
 }
 
+.radio-holder {
+  display: flex;
+  flex-direction: row;
+  flex: auto;
+  align-items: baseline;
+  margin-bottom: 0px;
+}
+
 /*
   filter sectie
 */
@@ -261,5 +269,19 @@ footer {
   input[type="number"] {
     max-width: 80%;
     width: auto;
+  }
+
+  section div.user_card {
+    max-width: none;
+  }
+
+  section input {
+    margin-bottom: 3vh;
+    display: block;
+  }
+
+  section input {
+    margin-bottom: 3vh;
+    display: block;
   }
 }

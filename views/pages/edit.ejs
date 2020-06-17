@@ -30,10 +30,15 @@
 
 
       <h3>What's your gender?</h3>
-      <input type="radio" id="male" name="gender" value="male">
-      <label for="male">Male</label>
-      <input type="radio" id="female" name="gender" value="female">
-      <label for="female">Female</label>
+      <div class="radio-holder">
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+      </div>
+
+      <div class="radio-holder">
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+      </div>
 
       <h3>Upload your brightest smile</h3>
       <input type="file" accept="image/*" name="picture" placeholder="upload picture">
@@ -42,32 +47,57 @@
 
     <fieldset>
       <legend>What keeps you busy?</legend>
-        <input type="text" placeholder="interest, interest, interest" id="interest" name="interest" value="<%= data.interest %>">
+        <input type="text" placeholder="interest, interest, interest" id="interest" name="interest" value="<%= user.interest %>">
 
         <h3>type of relationship</h3>
-        <input type="radio" id="casual" name="intent" value="casual">
-        <label for="male">casual</label>
-        <input type="radio" id="serious" name="intent" value="serious">
-        <label for="female">serious</label>
-        <input type="radio" id="onenightstant" name="intent" value="onenightstant">
-        
+        <div class="radio-holder">
+          <input type="radio" id="casual" name="intent" value="casual">
+          <label for="male">casual</label>
+        </div>
+
+        <div class="radio-holder">
+          <input type="radio" id="serious" name="intent" value="serious">
+          <label for="female">serious</label>
+        </div>
+
+        <div class="radio-holder">
+          <input type="radio" id="onenightstant" name="intent" value="onenightstant">
+          <label for="intent">One Night Stand</label>
+        </div>
+
         <h3>What's your orientation?</h3>
-        <input type="radio" id="male" name="orientation" value="male">
-        <label for="male">Male</label>
-        <input type="radio" id="female" name="orientation" value="female">
-        <label for="female">Female</label>
-        <input type="radio" id="both" name="orientation" value="both">
-        <label for="both">Both</label>
+        <div class="radio-holder">
+          <input type="radio" id="male" name="orientation" value="male">
+          <label for="male">Male</label>
+        </div>
+
+        <div class="radio-holder">
+          <input type="radio" id="female" name="orientation" value="female">
+          <label for="female">Female</label>
+        </div>
+
+        <div class="radio-holder">
+          <input type="radio" id="both" name="orientation" value="both">
+          <label for="both">Both</label>
+        </div>
     </fieldset>
 
     <fieldset>
       <legend>Is your day near or far away?</legend>
-      <input type="radio" id="city" name="area" value="1">
-      <label for="city">city</label>
-      <input type="radio" id="country" name="area" value="2">
-      <label for="country">Country</label>
-      <input type="radio" id="world" name="area" value="3">
-      <label for="world">World</label>
+      <div class="radio-holder">
+        <input type="radio" id="city" name="area" value="1">
+        <label for="city">city</label>
+      </div>
+
+      <div class="radio-holder">
+        <input type="radio" id="country" name="area" value="2">
+        <label for="country">Country</label>
+      </div>
+
+      <div class="radio-holder">
+        <input type="radio" id="world" name="area" value="3">
+        <label for="world">World</label>
+      </div>
     </fieldset>
 
 
@@ -77,7 +107,7 @@
 
     </div>
 
-  </main>  
+  </main>
 
   <footer>
       <%- include ("../partials/footer") %>

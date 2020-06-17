@@ -6,10 +6,10 @@ const filter = document.querySelector("#filter");
 filter.classList.add("hide");
 
 function toggle_filter(event) {
-  filter.classList.remove("hide");
   event.preventDefault();
   console.log(filter);
   filter.classList.toggle("show");
+  filter.classList.toggle("hide");
 }
 
 filter_btn.addEventListener("click", toggle_filter);

@@ -1,11 +1,13 @@
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
 
 body {
   background-color: #28226a;
   margin: 0px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 /*
@@ -30,21 +32,21 @@ nav div ul {
 }
 
 nav ul li a {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
-    text-decoration: none;
-    color: #28226a;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+  text-decoration: none;
+  color: #28226a;
 }
 
 nav ul li a span {
-    margin: 8px 0px;
+  margin: 8px 0px;
 }
 
 nav > a {
-    display: block;
-    min-width: 200px;
+  display: block;
+  min-width: 200px;
 }
 
 nav > a img {
@@ -69,25 +71,26 @@ main section {
 }
 
 main section form div {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5vh;
 }
 
 main section form div input {
-    max-width: 50%;
-    padding: 10px;
-    border: 1px solid #d0d0d0;
-    border-radius: 0.2rem;
-    margin-top: 15px;
+  max-width: 50%;
+  padding: 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 0.2rem;
+  margin-top: 15px;
 }
 
 main section form button {
-    padding: 10px 15px;
-    margin-right: 10px;
-    background-color: #28226A;
-    color: #fff;
-    border: 0px;
-    border-radius: 0.2rem;
+  padding: 10px 15px;
+  margin-right: 10px;
+  background-color: #28226a;
+  color: #fff;
+  border: 0px;
+  border-radius: 0.2rem;
 }
 
 main section form button:hover {
@@ -103,7 +106,7 @@ main section a {
   filter sectie
 */
 
-#filter{
+#filter {
   display: none;
   position: absolute;
   top: 30vh;
@@ -111,29 +114,28 @@ main section a {
   background-color: #e9ecef;
   padding: 15px;
   border-radius: 0.2rem;
-  box-shadow: 0px 0px 20px
+  box-shadow: 0px 0px 20px;
 }
 
-#filter.show{
+#filter.show {
   display: block;
 }
 
 fieldset {
-    margin: 0px;
-    padding: 0px;
-    border: none;
+  margin: 0px;
+  padding: 0px;
+  border: none;
 }
 
-legend{
-    display: none
+legend {
+  display: none;
 }
 
-#filter input{
-    min-width: 100%;
+#filter input {
+  min-width: 100%;
 }
 
-
-input[type=range] {
+input[type="range"] {
   -webkit-appearance: none;
   width: 100%;
 }
@@ -142,32 +144,35 @@ input[type="range"]:focus {
   outline: none;
 }
 
-input[type=range]::-webkit-slider-runnable-track {
+input[type="range"]::-webkit-slider-runnable-track {
   width: 100%;
   height: 8.4px;
   cursor: pointer;
   animate: 0.2s;
   box-shadow: 1px 1px 1px #d0d0d0, 0px 0px 1px #d0d0d0;
-  background: #E9ECEF;
+  background: #e9ecef;
   border-radius: 10px;
 }
 
-input[type=range]::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
   height: 36px;
   width: 16px;
   border-radius: 3px;
-  background: #2C2967;
+  background: #2c2967;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -14px;
 }
 
-input[type=range]:focus::-webkit-slider-runnable-track {
+input[type="range"]:focus::-webkit-slider-runnable-track {
   background: #d1d1d1;
 }
 
-input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"] {
   width: 50%;
   padding: 10px;
   border-radius: 8px;
@@ -175,9 +180,9 @@ input[type="text"], input[type="password"], input[type="email"], input[type="num
 }
 
 section div.user_card {
-    margin: 0px auto;
-    background-color: #fff;
-    max-width: 30vw;
+  margin: 0px auto;
+  background-color: #fff;
+  max-width: 30vw;
 }
 
 section div img {
@@ -185,7 +190,7 @@ section div img {
 }
 
 section div.user_card > div {
-    padding: 15px;
+  padding: 15px;
 }
 
 section div.user_card > div div {
@@ -212,7 +217,7 @@ div.user_card > div div form:last-child button {
   Admin sectie
 */
 
-#admin table{
+#admin table {
   width: 100%;
 }
 
@@ -228,262 +233,33 @@ div.user_card > div div form:last-child button {
   Footer sectie
  */
 
-footer{
+footer {
   text-align: center;
   color: #ffffff;
 }
 
-/* nav{
-  background: #e9ecef;
-  border-radius: .3rem;
-  margin-bottom: 2rem;
+/*
+  Media Queries
+*/
+
+@media only screen and (max-width: 767px) {
+  nav {
+    flex-direction: column;
+  }
+
+  nav ul {
+    padding-left: 0px;
+  }
+
+  nav ul li a {
+    padding: 20px 10px;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="number"] {
+    max-width: 80%;
+    width: auto;
+  }
 }
-
-header nav a span {
-  display: block;
-  width: 100%;
-  text-align: center;
-}
-
-header nav a{
-  text-align: center;
-  color: #28226a;
-}
-
-.navbar-brand > img {
-  width: 150px;
-  margin-top: 3px;
-}
-
-footer p.text-center {
-  color: #f0f0f0;
-}
-
-.card{
-  margin: 0px auto;
-  box-shadow: 0px 0px 25px #d0d0d0;
-}
-
-.btn-group{
-  width: 100%;
-}
-
-.form-control{
-  border: 0px;
-}
-
-
-input {
-  display: block;
-  margin-bottom: 15px;
-}
-
-.btn-group form {
-  width: 50%;
-}
-
-.btn-group form button {
-  width: 100%;
-}
-
-#filter .form-group div {
-  display: flex;
-  justify-content: flex-start;
-  align-items: baseline;
-}
-
-#filter .form-group div label{
-  padding-left: 15px;
-}
-
-input[type=range] {
-  -webkit-appearance: none;
-  width: 100%;
-}
-
-input[type="range"]:focus {
-  outline: none;
-}
-
-input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 8.4px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 1px 1px 1px #d0d0d0, 0px 0px 1px #d0d0d0;
-  background: #E9ECEF;
-  border-radius: 10px;
-}
-
-input[type=range]::-webkit-slider-thumb {
-  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  height: 36px;
-  width: 16px;
-  border-radius: 3px;
-  background: #2C2967;
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -14px;
-}
-
-input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #d1d1d1;
-}
-
-input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
-  width: 50%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #aaa;
-}
-
-button {
-  background: #2d2967;
-  color: #fff;
-  border: 0px;
-  padding: 8px 20px;
-  border-radius: 8px;
-}
-
-div#age_value {
-  position: absolute;
-  color: #2d2967;
-  top: 30px;
-}
-
-#distance_value{
-  position: absolute;
-  top: 116px;
-}
-
-section{
-  background-color: #e9ecef;
-  border-radius: .3rem;
-  padding: 4rem 2rem;
-  margin-bottom: 2rem;
-}
-
-body{
-   background-color: #F7F7F7;
-  margin: 0;
-  padding-top: 10vh;
-}
-
-img{
-  max-width: 100%;
-}
-
-header{
-  box-shadow: 0px 0px 4px;
-  position: fixed;
-  width: 100vw;
-  top: 0;
-  height: 10vh;
-}
-
-header, header nav ul {
-  background-color: #ffffff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 15px;
-}
-
-header > a img{
-  width: 200px;
-}
-
-header nav img{
-  width: 50px;
-}
-
-header nav ul{
-  list-style-type: none;
-}
-
-header nav ul li{
-  margin: 0px 15px;
-}
-
-div[class*="-popup"]{
-  width: 300px;
-  min-height: 500px;
-  position: absolute;
-  right: 3vw;
-  top: 15vh;
-  background-color: #fff;
-  box-shadow: 0px 0px 5px #d0d0d0;
-  border-radius: 8px;
-  display: none;
-  transform: opacity 0.3s;
-  opacity: 0;
-}
-
-.open{
-  display: block !important;
-  opacity: 1 !important;
-}
-
-.opacity{
-  opacity: 0.4;
-}
-
-article {
-  width: 30vw;
-  background-color: #fff;
-  box-shadow: 0px 0px 8px #d0d0d0;
-  border-radius: 8px;
-}
-
-article img{
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
-
-article ~ *{
-  padding: 15px;
-}
-
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-}
-
-small {
-  display: block;
-  margin-bottom: 10px;
-}
-
-figure {
-  margin: 0px;
-}
-
-figure figcaption{
-  padding: 15px;
-}
-
-article figure + ul {
-  background: floralwhite;
-  display: flex;
-  list-style-type: none;
-  margin: 0px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  align-items: center;
-  justify-content: space-around;
-  padding: 15px;
-}
-
-fieldset {
-  margin: 5vh 0;
-}
-
-.btn-group form {
-  width: 50%;
-}
-
-.btn-group form button {
-  width: 100%;
-} */

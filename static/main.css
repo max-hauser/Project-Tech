@@ -142,6 +142,7 @@ fieldset {
   margin: 0px;
   padding: 0px;
   border: none;
+  opacity: 0.2;
 }
 
 #filter input {
@@ -191,7 +192,6 @@ input[type="number"] {
   border-radius: 8px;
   border: 1px solid #aaa;
   margin: 15px 0;
-  opacity: 0.2;
 }
 
 form button {

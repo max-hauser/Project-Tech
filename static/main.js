@@ -49,11 +49,18 @@ if (window.location.href.includes("meet")) {
   });
 }
 
-const i = document.querySelectorAll("input");
+const all_inputs = document.querySelectorAll("input");
 
-i.forEach(input => {
-  input.addEventListener("focus", event => {
-    const fieldset = input.closest("fieldset");
+all_inputs.forEach(input => {
+  const fieldset = input.closest("fieldset");
+
+  if (input.autofocus) {
+    console.log("autofocus gevonden, run script..");
+    fieldset.style.opacity = "1";
+  }
+
+  input.addEventListener("focus", e => {
+    console.log(e);
     fieldset.style.opacity = "1";
   });
 });

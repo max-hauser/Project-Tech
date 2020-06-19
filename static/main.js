@@ -44,3 +44,12 @@ distance_input.addEventListener("input", e => {
     distance_value.style.left = 88 + "%";
   }
 });
+
+const inputs = document.querySelectorAll("input");
+
+inputs.forEach(input => {
+  input.addEventListener("focus", () => {
+    const fieldset = input.closest("fieldset");
+    fieldset.style.opacity = 1;
+  });
+});

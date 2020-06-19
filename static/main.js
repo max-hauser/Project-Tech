@@ -50,6 +50,10 @@ if (window.location.href.includes("meet")) {
 }
 
 const all_inputs = document.querySelectorAll("input");
+const all_fieldsets = document.querySelector("fieldset");
+all_fieldsets.forEach(fieldet => {
+  fieldet.style.opacity = "0.2";
+});
 
 all_inputs.forEach(input => {
   const fieldset = input.closest("fieldset");

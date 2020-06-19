@@ -45,11 +45,11 @@ distance_input.addEventListener("input", e => {
   }
 });
 
-const inputs = document.querySelectorAll("input");
+const i = document.querySelectorAll("input");
 
-inputs.forEach(input => {
-  input.addEventListener("focus", () => {
+i.forEach(input => {
+  input.addEventListener("focus", event => {
     const fieldset = input.closest("fieldset");
-    fieldset.style.opacity = 1;
+    fieldset.style.opacity = "1";
   });
 });
